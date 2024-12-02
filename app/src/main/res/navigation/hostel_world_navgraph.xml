@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hostel_world_navgraph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.wiseman.hostelworldassessmentapp.presentation.home.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_propertyDetailFragment"
+            app:destination="@id/propertyDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/propertyDetailFragment"
+        android:name="com.wiseman.hostelworldassessmentapp.presentation.detail.fragment.PropertyDetailFragment"
+        android:label="@string/label"
+        tools:layout="@layout/fragment_property_detail" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="label"
+            app:argType="string" />
+    </fragment>
+</navigation>

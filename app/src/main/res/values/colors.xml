@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="dark_blue">#FF1B3B5A</color>
+    <color name="primary_color">#e28743</color>
+
+    <color name="purple_5C068C">#5C068C</color>
+    <color name="blue_203EDF">#203EDF</color>
+    <color name="green_2FDF20">#2FDF20</color>
+    <color name="brown_DFB520">#DFB520</color>
+    <color name="red_DF2020">#DF2020</color>
+    <color name="cyan_20D4DF">#20D4DF</color>
+    <color name="background_color">#F0F0F0</color>
+    <color name="golden_color">#FFD700</color>
+    <color name="lightGray">#F9F9F9</color>
+    <color name="mediumGray">#D1D1D1</color>
+    <color name="lightMediumGray">#80D1D1D1</color>
+
+    <color name="error_dialog_background_color">#FFFFFF</color>
+    <color name="error_dialog_text_color">#000000</color>
+    <color name="error_dialog_accent_color">#FF0000</color>
+    <color name="error_dialog_button_color">#FF0000</color>
+    <color name="dark_gray">#80454444</color>
+
+</resources>

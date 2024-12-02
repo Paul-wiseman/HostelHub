@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <ImageView
+        android:id="@+id/property_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_background"
+        android:contentDescription="@string/hostel_image"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/hostel_image"
+        android:transitionName="@string/property_image" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

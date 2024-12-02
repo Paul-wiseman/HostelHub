@@ -1,0 +1,60 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.HostelWorldAssessmentApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+<!--         <item name="colorPrimary">@color/dark_blue</item>-->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/gothambook</item>
+        <item name="android:fontFamily">@font/gothambook</item>
+
+    </style>
+
+    <style name="Theme.HostelWorldAssessmentApp" parent="Base.Theme.HostelWorldAssessmentApp" />
+
+    <style name="toolBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="titleMarginStart">-30dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="titleTextColor">@color/black</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="android:drawableStart">@drawable/ic_location</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Regular.14sp</item>
+    </style>
+
+    <style name="TextAppearance.Regular.14sp" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/gothambook</item>
+        <item name="android:fontFamily">@font/gothambook</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Medium.20sp" parent="TextAppearance.AppCompat.Medium">
+        <item name="fontFamily">@font/gothammedium</item>
+        <item name="android:fontFamily">@font/gothammedium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="CardView.RoundedBottomCorners" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="android:background">@drawable/card_background</item>
+    </style>
+
+
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">20dp</item>
+        <item name="cornerSizeBottomLeft">20dp</item>
+    </style>
+
+    <style name="ErrorDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/error_dialog_background</item>
+        <item name="android:textColorPrimary">@color/error_dialog_text_color</item>
+        <item name="android:textColor">@color/error_dialog_text_color</item>
+        <item name="colorAccent">@color/error_dialog_accent_color</item>
+    </style>
+
+</resources>
