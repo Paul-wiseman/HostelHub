@@ -1,11 +1,10 @@
-package com.wiseman.hostelworldassessmentapp.presentation.home
+package com.wiseman.hostelworldassessmentapp.presentation.home.state
 
 import com.wiseman.hostelworldassessmentapp.domain.model.CurrencyExchangeRates
-import com.wiseman.hostelworldassessmentapp.domain.model.ExchangeRates
 import com.wiseman.hostelworldassessmentapp.domain.model.Location
 import com.wiseman.hostelworldassessmentapp.domain.model.Property
 
-data class HomeScreenViewState(
+data class PropertyUiState(
     val location: Location? = null,
     val properties: List<Property>? = null,
     val currentExchangeRate: CurrencyExchangeRates? = null,
@@ -18,3 +17,4 @@ sealed class UiState {
     data object Error : UiState()
     data object Success : UiState()
 }
+

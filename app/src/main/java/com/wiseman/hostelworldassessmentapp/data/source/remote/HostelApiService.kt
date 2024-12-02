@@ -6,9 +6,9 @@ import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 
 interface HostelApiService {
-    @GET(HostelWorldEndpoints.ALL_AVAILABLE_PROPERTIES)
-    fun getAllProperties(): Single<AvailablePropertiesDto>
+    @GET(HostelWorldEndpoints.PROPERTIES_ENDPOINT)
+    fun fetchAvailableProperties(): Single<AvailablePropertiesDto>
 
-    @GET(HostelWorldEndpoints.RATES)
-    fun getCurrencyExchangeRate():Single<CurrencyExchangeRatesDto>
+    @GET(HostelWorldEndpoints.RATES_ENDPOINT)
+    fun fetchCurrencyExchangeRate():Single<CurrencyExchangeRatesDto>
 }

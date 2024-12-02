@@ -89,14 +89,11 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hostel_image">hostel image</string>
     <string name="property_rating">Property Rating</string>
     <string name="property_image">Property Image</string>
     <string name="featured">Featured</string>
-    <string name="rating">%1$s (%2$s)</string>
-    <string name="price">%1$s%2$s</string>
     <string name="loading">Loading…</string>
     <string name="property_name">Property name</string>
     <string name="location_icon">location icon</string>
@@ -107,11 +104,12 @@
     <string name="price_per_night">Lowest Price</string>
     <string name="from">From</string>
     <string name="facilities">Facilities</string>
+    <string name="something_went_wrong">something went wrong</string>
+    <string name="error_fetching_available_properties">Error fetching available properties</string>
 
     <string-array name="supported_currency">
         <item>EUR</item>
         <item>USD</item>
         <item>GBP</item>
     </string-array>
-
 </resources>

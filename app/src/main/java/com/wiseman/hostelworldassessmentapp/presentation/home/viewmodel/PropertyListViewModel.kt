@@ -1,12 +1,12 @@
-package com.wiseman.hostelworldassessmentapp.presentation.viewmodel
+package com.wiseman.hostelworldassessmentapp.presentation.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wiseman.hostelworldassessmentapp.domain.model.AvailableProperties
 import com.wiseman.hostelworldassessmentapp.domain.model.CurrencyExchangeRates
 import com.wiseman.hostelworldassessmentapp.domain.repository.AvailablePropertiesRepository
-import com.wiseman.hostelworldassessmentapp.presentation.home.HomeScreenViewState
-import com.wiseman.hostelworldassessmentapp.presentation.home.UiState
+import com.wiseman.hostelworldassessmentapp.presentation.home.state.PropertyUiState
+import com.wiseman.hostelworldassessmentapp.presentation.home.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -24,8 +24,8 @@ class PropertyListViewModel @Inject constructor(
     private val repository: AvailablePropertiesRepository,
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
-    private val _state = MutableStateFlow(HomeScreenViewState())
-    val state: StateFlow<HomeScreenViewState> = _state
+    private val _state = MutableStateFlow(PropertyUiState())
+    val state: StateFlow<PropertyUiState> = _state
 
     init {
         getAllAvailableProperties()
@@ -34,7 +34,7 @@ class PropertyListViewModel @Inject constructor(
 
     private fun getAllAvailableProperties() {
         withDisposable {
-            repository.getAvailableProperties()
+            repository.fetchAvailableProperties()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     _state.update { homeScreenViewState ->
@@ -68,7 +68,7 @@ class PropertyListViewModel @Inject constructor(
         viewModelScope.launch {
             while (isActive) {
                 withDisposable {
-                    repository.getCurrentExchangeRate()
+                    repository.fetchCurrencyExchangeRate()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                             { data: CurrencyExchangeRates ->

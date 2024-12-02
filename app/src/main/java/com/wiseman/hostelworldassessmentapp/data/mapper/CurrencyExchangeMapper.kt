@@ -4,7 +4,7 @@ import com.wiseman.hostelworldassessmentapp.data.model.CurrencyExchangeRatesDto
 import com.wiseman.hostelworldassessmentapp.domain.model.CurrencyExchangeRates
 import com.wiseman.hostelworldassessmentapp.domain.model.ExchangeRates
 
-fun CurrencyExchangeRatesDto.toDomain() = CurrencyExchangeRates(
+fun CurrencyExchangeRatesDto.toCurrencyExchangeRates() = CurrencyExchangeRates(
     baseCurrency = baseCurrency,
     currencyRates = rates?.let {
         ExchangeRates(

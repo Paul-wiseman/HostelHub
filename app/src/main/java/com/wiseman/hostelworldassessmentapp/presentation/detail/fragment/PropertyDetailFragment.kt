@@ -3,23 +3,23 @@ package com.wiseman.hostelworldassessmentapp.presentation.detail.fragment
 import android.icu.text.DecimalFormat
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wiseman.hostelworldassessmentapp.R
 import com.wiseman.hostelworldassessmentapp.databinding.FragmentPropertyDetailBinding
 import com.wiseman.hostelworldassessmentapp.domain.model.CurrencyExchangeRates
 import com.wiseman.hostelworldassessmentapp.domain.model.Facility
-import com.wiseman.hostelworldassessmentapp.domain.model.Property
+import com.wiseman.hostelworldassessmentapp.domain.model.LowestPricePerNight
 import com.wiseman.hostelworldassessmentapp.presentation.adapter.ImageSlideAdapter
-import com.wiseman.hostelworldassessmentapp.presentation.home.HomeScreenViewState
-import com.wiseman.hostelworldassessmentapp.presentation.viewmodel.PropertyListViewModel
+import com.wiseman.hostelworldassessmentapp.presentation.home.state.PropertyUiState
+import com.wiseman.hostelworldassessmentapp.presentation.home.viewmodel.PropertyListViewModel
 import com.wiseman.hostelworldassessmentapp.util.collectInFragment
+import com.wiseman.hostelworldassessmentapp.util.formatPrice
+import com.wiseman.hostelworldassessmentapp.util.formatRating
 import com.wiseman.hostelworldassessmentapp.util.getCurrencySymbolFromCode
-import com.wiseman.hostelworldassessmentapp.util.mapValueToScale
 import com.wiseman.hostelworldassessmentapp.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,15 +27,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class PropertyDetailFragment : Fragment(R.layout.fragment_property_detail) {
     private val propertyListViewModel by activityViewModels<PropertyListViewModel>()
     private val binding by viewBinding(FragmentPropertyDetailBinding::bind)
-    private lateinit var viewPagerAdapter: ImageSlideAdapter
+    private val viewPagerAdapter: ImageSlideAdapter by lazy { ImageSlideAdapter() }
     private val args: PropertyDetailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initialViews()
+        setupViews()
     }
 
-    private fun initialViews() {
+    private fun setupViews() {
         propertyListViewModel.state.collectInFragment { state ->
             state.properties
                 ?.find { it.id == args.id }
@@ -44,7 +44,7 @@ class PropertyDetailFragment : Fragment(R.layout.fragment_property_detail) {
                         property.imagesGallery
                             .map { it.imageUrl }
                             .let { list ->
-                                viewPagerAdapter = ImageSlideAdapter(root.context, list)
+                                viewPagerAdapter.setItemList(list)
                                 viewpager.adapter = viewPagerAdapter
                                 indicator.setViewPager(viewpager)
                             }
@@ -57,38 +57,28 @@ class PropertyDetailFragment : Fragment(R.layout.fragment_property_detail) {
                             state.location?.country
                         )
 
-                        price.text = String.format(
-                            root.context.getString(R.string.price),
-                            property.lowestPricePerNight?.currency?.let {
-                                getCurrencySymbolFromCode(
-                                    it
-                                )
-                            },
-                            property.lowestPricePerNight?.value
-                        )
-                        rating.text = String.format(
-                            root.context.getString(R.string.rating),
-                            mapValueToScale(property.overallRating.overall),
-                            property.overallRating.numberOfRatings
-                        )
+                        price.text = property.lowestPricePerNight?.let { formatPrice(it) }
+                        rating.text = formatRating(property.overallRating)
                         pricePerNight.setOnClickListener {
-                            showStringListDialog(state, property)
+                            property.lowestPricePerNight?.let { price ->
+                                showSupportedCurrencyListDialog(state, price)
+                            }
                         }
                     }
 
-                    property.facilities?.map { facility: Facility ->
-                        val facilityList = facility.facilities?.map { it.name } ?: listOf()
-                        createFacilityList(facilityList)
-                    }
+                    val facilities = property.facilities?.map { facility: Facility ->
+                        facility.facilities?.map { it.name } ?: listOf()
+                    }?.flatten() ?: listOf()
+                    createFacilityList(facilities)
+
                 }
         }
     }
 
-
     private fun createFacilityList(list: List<String?>) {
         list.filterNotNull().forEach { facilityName ->
             with(binding) {
-                val chipGroup = amenitiesChipGroup
+                val chipGroup = facilityChipGroup
                 val chip = Chip(requireContext())
                 chip.text = facilityName
                 chip.isClickable = false
@@ -98,52 +88,44 @@ class PropertyDetailFragment : Fragment(R.layout.fragment_property_detail) {
         }
     }
 
-    private fun showStringListDialog(screenState: HomeScreenViewState, selectedProperty: Property) {
+    private fun showSupportedCurrencyListDialog(
+        screenState: PropertyUiState,
+        lowestPricePerNight: LowestPricePerNight
+    ) {
         val getSupportedCurrency = resources.getStringArray(R.array.supported_currency)
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(requireContext().getString(R.string.change_currency))
-        val arrayAdapter =
-            ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                getSupportedCurrency
-            )
-
-        builder.setAdapter(arrayAdapter) { dialog, which ->
-            val selectedCurrency = getSupportedCurrency[which]
-            screenState.currentExchangeRate?.let {
-                changePriceToSelectedCurrency(
-                    selectedCurrency, selectedProperty,
-                    it
-                )
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(requireContext().getString(R.string.change_currency))
+            .setItems(getSupportedCurrency) { dialogInterface, which ->
+                val selectedCurrency = getSupportedCurrency[which]
+                screenState.currentExchangeRate?.let {
+                    changePriceToSelectedCurrency(
+                        selectedCurrency, lowestPricePerNight,
+                        it
+                    )
+                }
+                dialogInterface.dismiss()
             }
-            dialog.dismiss()
-        }
-
-        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        val dialog = builder.create()
-        dialog.show()
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun changePriceToSelectedCurrency(
         selectedCurrency: String,
-        selectedProperty: Property,
+        lowestPricePerNight: LowestPricePerNight,
         currencyExchangeRates: CurrencyExchangeRates
     ) {
         currencyExchangeRates.currencyRates?.rates?.let { currencyMap: Map<String, Double?> ->
             if (currencyMap.containsKey(selectedCurrency)) {
                 val rate = currencyMap[selectedCurrency]
                 rate?.let {
-                    val propertyPrice = selectedProperty.lowestPricePerNight?.value?.toDouble()
+                    val propertyPrice = lowestPricePerNight.value?.toDouble()
                     propertyPrice?.let {
                         val realPrice = propertyPrice.times(rate)
                         val decimalFormatter = DecimalFormat("#.##")
-                        decimalFormatter.format(realPrice)
                         binding.price.text = String.format(
-                            getString(R.string.price),
+                            "%s%s",
                             getCurrencySymbolFromCode(selectedCurrency),
                             decimalFormatter.format(realPrice)
                         )

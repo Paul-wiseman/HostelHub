@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.wiseman.hostelworldassessmentapp.R
 import com.wiseman.hostelworldassessmentapp.databinding.ActivityMainBinding
-import com.wiseman.hostelworldassessmentapp.presentation.viewmodel.PropertyListViewModel
+import com.wiseman.hostelworldassessmentapp.presentation.home.viewmodel.PropertyListViewModel
 import com.wiseman.hostelworldassessmentapp.util.collectInActivity
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -11,8 +11,8 @@ import com.wiseman.hostelworldassessmentapp.R
 import com.wiseman.hostelworldassessmentapp.databinding.FragmentHomeBinding
 import com.wiseman.hostelworldassessmentapp.domain.model.Property
 import com.wiseman.hostelworldassessmentapp.presentation.home.adapter.PropertyListAdapter
-import com.wiseman.hostelworldassessmentapp.presentation.home.UiState
-import com.wiseman.hostelworldassessmentapp.presentation.viewmodel.PropertyListViewModel
+import com.wiseman.hostelworldassessmentapp.presentation.home.state.UiState
+import com.wiseman.hostelworldassessmentapp.presentation.home.viewmodel.PropertyListViewModel
 import com.wiseman.hostelworldassessmentapp.util.CustomProgressDialogFragment
 import com.wiseman.hostelworldassessmentapp.util.collectInFragment
 import com.wiseman.hostelworldassessmentapp.util.showErrorDialog
@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    private val propertyListAdapter: PropertyListAdapter by lazy { PropertyListAdapter() }
+    private val adapter: PropertyListAdapter by lazy { PropertyListAdapter() }
     private val propertyListViewModel by activityViewModels<PropertyListViewModel>()
     private val binding by viewBinding(FragmentHomeBinding::bind)
 
@@ -32,21 +32,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         setUpRecyclerView()
         getAllAvailableProperties()
-        handleClickItemClicked()
+        setupItemClickListener()
     }
 
     private fun setUpRecyclerView() {
         binding.availablePropertiesRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = propertyListAdapter
-            propertyListAdapter
+            adapter = this@HomeFragment.adapter
         }
     }
 
-    private fun handleClickItemClicked() {
-        propertyListAdapter.setOnclickListener { item: Property ->
+    private fun setupItemClickListener() {
+        adapter.setOnItemClickListener { item: Property ->
             item.id?.let {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToPropertyDetailFragment(item.id, label = item.name?:""))
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToPropertyDetailFragment(
+                        item.id,
+                        label = item.name ?: ""
+                    )
+                )
             }
         }
     }
@@ -57,11 +61,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             when (homeScreenViewState.state) {
                 UiState.Error -> {
                     showCustomProgressSheet(requireActivity(), false)
-                    homeScreenViewState.error?.let {
-                        showErrorDialog(requireContext(), "something went wrong",
-                            it
-                        )
-                    }
+                    val errorMassage = homeScreenViewState.error
+                        ?: getString(R.string.error_fetching_available_properties)
+                    showErrorDialog(
+                        requireContext(), getString(R.string.something_went_wrong),
+                        errorMassage
+                    )
                 }
 
                 UiState.Loading -> {
@@ -70,7 +75,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 UiState.Success -> {
                     showCustomProgressSheet(requireActivity(), false)
-                    homeScreenViewState.properties?.let { propertyListAdapter.setItemList(it) }
+                    homeScreenViewState.properties?.let { adapter.setItemList(it) }
                 }
             }
         }
@@ -80,13 +85,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         activity: FragmentActivity,
         show: Boolean
     ) {
-        if (!activity.isFinishing && show) {
-            customProgressFrag.show(
-                activity.supportFragmentManager,
-                "CustomProgressDialogFragment"
-            )
-        } else if (!activity.isFinishing && !show) {
-            customProgressFrag.dismiss()
+        if (!activity.isFinishing) {
+            if (show) {
+                customProgressFrag.show(
+                    activity.supportFragmentManager,
+                    TAG
+                )
+            } else {
+                customProgressFrag.dismiss()
+            }
         }
+    }
+
+    private companion object {
+        const val TAG = "HomeFragment"
     }
 }

@@ -5,88 +5,78 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.wiseman.hostelworldassessmentapp.R
 import com.wiseman.hostelworldassessmentapp.databinding.PropertyItemLayoutBinding
 import com.wiseman.hostelworldassessmentapp.domain.model.Property
 import com.wiseman.hostelworldassessmentapp.presentation.adapter.ImageSlideAdapter
 import com.wiseman.hostelworldassessmentapp.util.HostelWorldDiffUtil
 import com.wiseman.hostelworldassessmentapp.util.animate
-import com.wiseman.hostelworldassessmentapp.util.getCurrencySymbolFromCode
-import com.wiseman.hostelworldassessmentapp.util.mapValueToScale
+import com.wiseman.hostelworldassessmentapp.util.formatPrice
+import com.wiseman.hostelworldassessmentapp.util.formatRating
 
 class PropertyListAdapter :
-    RecyclerView.Adapter<PropertyListAdapter.AvailablePropertyListViewHolder>() {
-    private var onItemClick: ((item: Property) -> Unit)? = null
-    private var listItem: List<Property> = emptyList()
+    RecyclerView.Adapter<PropertyListAdapter.PropertyViewHolder>() {
+    private var onItemClickListener: ((item: Property) -> Unit)? = null
+    private var properties: List<Property> = emptyList()
     private lateinit var viewPagerAdapter: ImageSlideAdapter
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AvailablePropertyListViewHolder {
-        return AvailablePropertyListViewHolder(
-            PropertyItemLayoutBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+    ): PropertyViewHolder {
+        val binding =
+            PropertyItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        viewPagerAdapter = ImageSlideAdapter()
+        return PropertyViewHolder(binding)
     }
 
-    override fun getItemCount() = listItem.size
+    override fun getItemCount() = properties.size
 
 
-    override fun onBindViewHolder(holder: AvailablePropertyListViewHolder, position: Int) {
-        val currentItem = listItem[position]
-
+    override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
+        val currentItem = properties[position]
         holder.bind(currentItem)
         holder.binding.root.setOnClickListener {
-            onItemClick?.let { listener -> listener(listItem[position]) }
+            onItemClickListener?.invoke(currentItem)
         }
         animate(holder.binding.propertyPrice, position)
     }
 
     fun setItemList(newList: List<Property>) {
-        val itemDiffUtil = HostelWorldDiffUtil(listItem, newList)
+        val itemDiffUtil = HostelWorldDiffUtil(properties, newList)
         val diffUtilResult = DiffUtil.calculateDiff(itemDiffUtil)
-        listItem = newList
+        properties = newList
         diffUtilResult.dispatchUpdatesTo(this)
     }
 
-    inner class AvailablePropertyListViewHolder(val binding: PropertyItemLayoutBinding) :
+    inner class PropertyViewHolder(val binding: PropertyItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private val featuredBadge = binding.featuredBadge
+        private val propertyTitle = binding.propertyTitle
+        private val propertyPrice = binding.propertyPrice
+        private val propertyRating = binding.propertyRating
+        private val imageViewPager = binding.viewpager
+        private val imageViewPagerIndicator = binding.indicator
 
         fun bind(property: Property) {
-            with(binding) {
-                featuredBadge.visibility =
-                    if (property.isFeatured == true) View.VISIBLE else View.INVISIBLE
-                propertyTitle.text = property.name
-                propertyPrice.text = String.format(
-                    root.context.getString(R.string.price),
-                    property.lowestPricePerNight?.currency?.let { getCurrencySymbolFromCode(it) },
-                    property.lowestPricePerNight?.value
-                )
-                propertyRating.text = String.format(
-                    root.context.getString(R.string.rating),
-                    mapValueToScale(property.overallRating.overall),
-                    property.overallRating.numberOfRatings
-                )
-                property.imagesGallery
-                    .map { it.imageUrl }
-                    .let { list ->
-                        viewPagerAdapter = ImageSlideAdapter(root.context, list)
-                        viewPagerAdapter.onItemClicked {
-                            onItemClick?.let { it(property) }
-                        }
-                        viewpager.adapter = viewPagerAdapter
-                        indicator.setViewPager(viewpager)
-                    }
+            featuredBadge.visibility =
+                if (property.isFeatured == true) View.VISIBLE else View.INVISIBLE
+            propertyTitle.text = property.name
+            property.lowestPricePerNight?.let { price ->
+                propertyPrice.text = formatPrice(price)
             }
+            propertyRating.text = formatRating(property.overallRating)
+            viewPagerAdapter.setOnImageClickListener {
+                onItemClickListener?.let { it(property) }
+            }
+            imageViewPager.adapter = viewPagerAdapter
+            imageViewPagerIndicator.setViewPager(imageViewPager)
+            val currentImageGallery = property.imagesGallery
+                .map { it.imageUrl }
+            viewPagerAdapter.setItemList(currentImageGallery)
         }
     }
 
-    fun setOnclickListener(listener: (item: Property) -> Unit) {
-        this.onItemClick = listener
+    fun setOnItemClickListener(listener: (item: Property) -> Unit) {
+        this.onItemClickListener = listener
     }
-
 }

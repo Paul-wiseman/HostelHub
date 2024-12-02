@@ -13,19 +13,19 @@ import com.wiseman.hostelworldassessmentapp.domain.model.LowestPricePerNight
 import com.wiseman.hostelworldassessmentapp.domain.model.OverallRating
 import com.wiseman.hostelworldassessmentapp.domain.model.Property
 
-fun AvailablePropertiesDto.toDomainModel(): AvailableProperties =
+fun AvailablePropertiesDto.toCurrencyExchangeRates(): AvailableProperties =
     AvailableProperties(
-        location = location?.toDomainModel(),
-        properties = properties?.map { it.toDomainModel() }
+        location = location?.toCurrencyExchangeRates(),
+        properties = properties?.map { it.toCurrencyExchangeRates() }
     )
 
-fun LocationDto.toDomainModel(): Location = Location(
+fun LocationDto.toCurrencyExchangeRates(): Location = Location(
     country = city?.country,
     name = city?.name,
     idCountry = city?.idCountry
 )
 
-fun PropertyDto.toDomainModel(): Property =
+fun PropertyDto.toCurrencyExchangeRates(): Property =
     Property(
         address1 = address1,
         address2 = address2,

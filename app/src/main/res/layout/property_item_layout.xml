@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.viewpager.widget.ViewPager
+                <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_300dp"
@@ -38,7 +38,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <me.relex.circleindicator.CircleIndicator
+                <me.relex.circleindicator.CircleIndicator3
                     android:id="@+id/indicator"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -108,7 +108,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/rating"
                     android:textSize="@dimen/_18sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -131,7 +130,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/_10dp"
-                    android:text="@string/price"
                     android:textSize="@dimen/_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
