@@ -30,7 +30,7 @@ data class FreeCancellation(
 )
 
 data class OverallRating(
-    val numberOfRatings: String?,
+    val numberOfRatings: String,
     val overall: Int
 )
 
@@ -42,7 +42,6 @@ data class LowestPricePerNight(
 data class Property(
     val address1: String?,
     val address2: String?,
-    val fullAddress:String,
     val facilities: List<Facility>?,
     val freeCancellation: FreeCancellation?,
     val freeCancellationAvailable: Boolean?,

@@ -50,7 +50,13 @@ class PropertyDetailFragment : Fragment(R.layout.fragment_property_detail) {
                             }
                         propertyName.text = property.name
                         propertyOverview.text = property.overview
-                        location.text = property.fullAddress
+                        location.text = String.format(
+                            "%s, %s, %s",
+                            property.address1,
+                            state.location?.name,
+                            state.location?.country
+                        )
+
                         price.text = String.format(
                             root.context.getString(R.string.price),
                             property.lowestPricePerNight?.currency?.let {
@@ -132,16 +138,16 @@ class PropertyDetailFragment : Fragment(R.layout.fragment_property_detail) {
                 val rate = currencyMap[selectedCurrency]
                 rate?.let {
                     val propertyPrice = selectedProperty.lowestPricePerNight?.value?.toDouble()
-                   propertyPrice?.let {
-                       val realPrice = propertyPrice.times(rate)
-                       val decimalFormatter = DecimalFormat("#.##")
-                       decimalFormatter.format(realPrice)
-                       binding.price.text = String.format(
-                           getString(R.string.price),
-                           getCurrencySymbolFromCode(selectedCurrency),
-                           decimalFormatter.format(realPrice)
-                       )
-                   }
+                    propertyPrice?.let {
+                        val realPrice = propertyPrice.times(rate)
+                        val decimalFormatter = DecimalFormat("#.##")
+                        decimalFormatter.format(realPrice)
+                        binding.price.text = String.format(
+                            getString(R.string.price),
+                            getCurrencySymbolFromCode(selectedCurrency),
+                            decimalFormatter.format(realPrice)
+                        )
+                    }
                 }
             }
         }

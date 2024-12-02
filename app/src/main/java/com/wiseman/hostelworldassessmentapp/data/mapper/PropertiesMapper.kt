@@ -1,6 +1,7 @@
 package com.wiseman.hostelworldassessmentapp.data.mapper
 
 import com.wiseman.hostelworldassessmentapp.data.model.AvailablePropertiesDto
+import com.wiseman.hostelworldassessmentapp.data.model.LocationDto
 import com.wiseman.hostelworldassessmentapp.data.model.PropertyDto
 import com.wiseman.hostelworldassessmentapp.domain.model.Amenity
 import com.wiseman.hostelworldassessmentapp.domain.model.AvailableProperties
@@ -14,56 +15,60 @@ import com.wiseman.hostelworldassessmentapp.domain.model.Property
 
 fun AvailablePropertiesDto.toDomainModel(): AvailableProperties =
     AvailableProperties(
-        location = Location(
-            country = location?.city?.country,
-            name = location?.city?.name,
-            idCountry = location?.city?.idCountry
+        location = location?.toDomainModel(),
+        properties = properties?.map { it.toDomainModel() }
+    )
 
-        ),
-        properties = properties?.map { it: PropertyDto ->
-            Property(
-                fullAddress = "${it.address1}, ${location?.city?.name}, ${location?.city?.country}",
-                address1 = it.address1,
-                address2 = it.address2,
-                facilities = it.facilities?.map { facilityDto ->
-                    Facility(
-                        facilities = facilityDto.facilities?.map { amenity ->
-                            Amenity(name = amenity.name)
-                        },
-                        name = facilityDto.name
+fun LocationDto.toDomainModel(): Location = Location(
+    country = city?.country,
+    name = city?.name,
+    idCountry = city?.idCountry
+)
 
-                    )
+fun PropertyDto.toDomainModel(): Property =
+    Property(
+        address1 = address1,
+        address2 = address2,
+        facilities = facilities?.map { facilityDto ->
+            Facility(
+                facilities = facilityDto.facilities?.map { amenity ->
+                    Amenity(name = amenity.name)
                 },
-                freeCancellation = FreeCancellation(
-                    description = it.freeCancellation?.description,
-                    label = it.freeCancellation?.label
-                ),
-                freeCancellationAvailable = it.freeCancellationAvailable,
-                freeCancellationAvailableUntil = it.freeCancellationAvailableUntil,
-                id = it.id,
-                imagesGallery = it.imagesGallery?.map { imageGallary ->
-                    ImagesGallery(
-                        imageUrl = "https://${imageGallary.prefix}${imageGallary.suffix}"
-                    )
-                } ?: listOf(),
-                isFeatured = it.isFeatured,
-                isPromoted = it.isPromoted,
-                name = it.name,
-                overallRating = OverallRating(
-                    numberOfRatings = it.overallRating?.numberOfRatings,
-                    overall = it.overallRating?.overall ?: 0
-                ),
-                overview = it.overview,
-                position = it.position,
-                type = it.type,
-                veryPopular = it.veryPopular,
-                lowestPricePerNight = it.lowestPricePerNight?.currency?.let { currency ->
-                    LowestPricePerNight(
-                        currency = currency,
-                        value = it.lowestPricePerNight.value
+                name = facilityDto.name
 
-                    )
-                },
             )
-        }
+        },
+        freeCancellation = FreeCancellation(
+            description = freeCancellation?.description,
+            label = freeCancellation?.label
+        ),
+        freeCancellationAvailable = freeCancellationAvailable,
+        freeCancellationAvailableUntil = freeCancellationAvailableUntil,
+        id = id,
+        imagesGallery = imagesGallery?.map { imageGallery ->
+            ImagesGallery(
+                imageUrl = String.format(
+                    "https://%s%s",
+                    imageGallery.prefix,
+                    imageGallery.suffix
+                )
+            )
+        } ?: listOf(),
+        isFeatured = isFeatured,
+        isPromoted = isPromoted,
+        name = name,
+        overallRating = OverallRating(
+            numberOfRatings = overallRating?.numberOfRatings ?: "0",
+            overall = overallRating?.overall ?: 0
+        ),
+        overview = overview,
+        position = position,
+        type = type,
+        veryPopular = veryPopular,
+        lowestPricePerNight = lowestPricePerNight?.currency?.let { currency ->
+            LowestPricePerNight(
+                currency = currency,
+                value = lowestPricePerNight.value
+            )
+        },
     )
