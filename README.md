@@ -12,7 +12,8 @@ Hostel Details: Provides in-depth information about each hostel, including ameni
 - Image Loading: Efficiently loads and displays high-quality images using Coil.
 - Smooth Animations: Enhances user experience with Lottie animations for loading states and transitions.
 - Robust Testing: Comprehensive unit, integration, and UI tests ensure app quality and stability.
-- 
+
+  
 ## Technical Stack
 - Android SDK
 - Kotlin
