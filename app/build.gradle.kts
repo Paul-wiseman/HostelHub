@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.safe.args)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -53,6 +54,11 @@ android {
         buildConfig = true
         viewBinding = true
     }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+
 }
 
 dependencies {
@@ -80,6 +86,7 @@ dependencies {
     implementation(libs.rxkotlin.android)
     implementation(libs.lottie.animation)
     implementation(libs.coil)
+    implementation(libs.kotlin.serialization.json)
     implementation(libs.coil.network)
     implementation(libs.viewpager.indicator)
     implementation(kotlin("reflect"))

@@ -2,6 +2,7 @@ package com.wiseman.hostelworldassessmentapp.data.repository
 
 import android.content.Context
 import com.wiseman.hostelworldassessmentapp.data.mapper.toCurrencyExchangeRates
+import com.wiseman.hostelworldassessmentapp.data.mapper.toAvailableProperties
 import com.wiseman.hostelworldassessmentapp.data.source.remote.HostelApiService
 import com.wiseman.hostelworldassessmentapp.domain.model.AvailableProperties
 import com.wiseman.hostelworldassessmentapp.domain.model.CurrencyExchangeRates
@@ -21,7 +22,7 @@ class AvailablePropertiesRepositoryImpl @Inject constructor(
 ) : AvailablePropertiesRepository {
 
     override fun fetchAvailableProperties(): Single<AvailableProperties> {
-        return makeNetworkRequest { hostelApiService.fetchAvailableProperties().map { it.toCurrencyExchangeRates() } }
+        return makeNetworkRequest { hostelApiService.fetchAvailableProperties().map { it.toAvailableProperties() } }
     }
 
     override fun fetchCurrencyExchangeRate(): Single<CurrencyExchangeRates> {

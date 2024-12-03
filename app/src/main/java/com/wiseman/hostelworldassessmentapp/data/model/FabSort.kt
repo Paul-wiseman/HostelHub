@@ -2,7 +2,9 @@ package com.wiseman.hostelworldassessmentapp.data.model
 
 
 import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class FabSortDto(
     @Json(name = "rank1")
     val rank1: Int?,

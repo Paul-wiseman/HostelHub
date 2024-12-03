@@ -2,7 +2,9 @@ package com.wiseman.hostelworldassessmentapp.data.model
 
 
 import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class PropertyDto(
     @Json(name = "address1")
     val address1: String?,
@@ -31,7 +33,7 @@ data class PropertyDto(
     @Json(name = "hostelworldRecommends")
     val hostelworldRecommends: Boolean?,
     @Json(name = "hwExtra")
-    val hwExtra: Any?,
+    val hwExtra: String?,
     @Json(name = "id")
     val id: Int?,
     @Json(name = "images")

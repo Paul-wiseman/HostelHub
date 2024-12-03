@@ -2,7 +2,9 @@ package com.wiseman.hostelworldassessmentapp.data.model
 
 
 import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RatingBreakdownDto(
     @Json(name = "average")
     val average: Int?,
@@ -11,7 +13,7 @@ data class RatingBreakdownDto(
     @Json(name = "facilities")
     val facilities: Int?,
     @Json(name = "fun")
-    val funX: Int?,
+    val funx: Int?,
     @Json(name = "location")
     val location: Int?,
     @Json(name = "ratingsCount")

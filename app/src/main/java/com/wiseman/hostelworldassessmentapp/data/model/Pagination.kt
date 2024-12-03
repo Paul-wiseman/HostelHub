@@ -2,7 +2,9 @@ package com.wiseman.hostelworldassessmentapp.data.model
 
 
 import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Pagination(
     @Json(name = "next")
     val next: String?,
