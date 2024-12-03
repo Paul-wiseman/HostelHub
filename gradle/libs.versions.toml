@@ -22,6 +22,8 @@ lottieVersion = "5.2.0"
 coilVersion = "3.0.4"
 viewPagerIndicatorVersion = "2.1.6"
 safeArgsVersion = "2.5.2"
+junitJupiter = "5.8.1"
+mockKVersion = "1.13.13"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,14 +49,16 @@ retrofit-rxjava-adapter = { module = "com.squareup.retrofit2:adapter-rxjava3", v
 lottie-animation = { module = "com.airbnb.android:lottie", version.ref = "lottieVersion" }
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coilVersion" }
 coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilVersion" }
-viewpager-indicator = { module = "me.relex:circleindicator", version.ref = "viewPagerIndicatorVersion"}
+viewpager-indicator = { module = "me.relex:circleindicator", version.ref = "viewPagerIndicatorVersion" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockKVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
-safe-args = {id ="androidx.navigation.safeargs.kotlin", version.ref = "safeArgsVersion"}
+safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeArgsVersion" }
 
 
 
