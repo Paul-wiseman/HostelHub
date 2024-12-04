@@ -25,7 +25,6 @@ class PropertyListAdapter :
     ): PropertyViewHolder {
         val binding =
             PropertyItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        viewPagerAdapter = ImageSlideAdapter()
         return PropertyViewHolder(binding)
     }
 
@@ -65,15 +64,19 @@ class PropertyListAdapter :
                 propertyPrice.text = formatPrice(price)
             }
             propertyRating.text = formatRating(property.overallRating)
-            viewPagerAdapter.setOnImageClickListener {
-                onItemClickListener?.let { it(property) }
-            }
-            imageViewPager.adapter = viewPagerAdapter
-            imageViewPagerIndicator.setViewPager(imageViewPager)
-            val currentImageGallery = property.imagesGallery
+
+            property.imagesGallery
                 .map { it.imageUrl }
-            viewPagerAdapter.setItemList(currentImageGallery)
+                .let { list ->
+                    viewPagerAdapter = ImageSlideAdapter(binding.root.context, list)
+                    viewPagerAdapter.setOnImageClickListener {
+                        onItemClickListener?.let { it(property) }
+                    }
+                    imageViewPager.adapter = viewPagerAdapter
+                    imageViewPagerIndicator.setViewPager(imageViewPager)
+                }
         }
+
     }
 
     fun setOnItemClickListener(listener: (item: Property) -> Unit) {

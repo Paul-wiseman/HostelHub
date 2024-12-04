@@ -36,7 +36,11 @@ class AvailablePropertiesRepositoryImpl @Inject constructor(
 
     private fun <T : Any> makeNetworkRequest(request: () -> Single<T>): Single<T> {
         return if (networkUtil.isInternetAvailable(context)) {
-            request().subscribeOn(schedulerProvider.io())
+            try {
+                request().subscribeOn(schedulerProvider.io())
+            } catch (e: Exception) {
+                Single.error(HostelWorldException.ParsingError(e.message.toString()))
+            }
         } else Single.error(HostelWorldException.NetworkError(NETWORK_ERROR))
     }
 

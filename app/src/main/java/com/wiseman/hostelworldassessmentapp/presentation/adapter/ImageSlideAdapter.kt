@@ -1,47 +1,47 @@
 package com.wiseman.hostelworldassessmentapp.presentation.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.wiseman.hostelworldassessmentapp.databinding.ImageSliderItemBinding
-import com.wiseman.hostelworldassessmentapp.util.HostelWorldDiffUtil
 import com.wiseman.hostelworldassessmentapp.util.loadImage
 
-class ImageSlideAdapter() :
-    RecyclerView.Adapter<ImageSlideAdapter.ImageSlideViewHolder>() {
-    private var imageList: List<String> = emptyList()
-
-    class ImageSlideViewHolder(val binding: ImageSliderItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
-
-    override fun getItemCount() = imageList.size
+class ImageSlideAdapter(private val context: Context, private var imageList: List<String>) :
+    PagerAdapter() {
+    override fun getCount() = imageList.size
     private var onImageClickListener: (() -> Unit)? = null
 
 
-    override fun onBindViewHolder(holder: ImageSlideViewHolder, position: Int) {
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return view === `object`
+    }
+
+    override fun instantiateItem(container: ViewGroup, position: Int): View {
+        val binding = ImageSliderItemBinding.inflate(
+            LayoutInflater.from(context),
+            container,
+            false
+        )
         val imageUrl = imageList[position]
-        holder.binding.propertyImage.loadImage(imageUrl)
-        holder.binding.root.setOnClickListener {
+        binding.propertyImage.loadImage(imageUrl)
+        val vp = container as ViewPager
+        binding.root.setOnClickListener {
             onImageClickListener?.invoke()
         }
+        vp.addView(binding.root, 0)
+        return binding.root
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSlideViewHolder {
-        val binding =
-            ImageSliderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ImageSlideViewHolder(binding)
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        val vp = container as ViewPager
+        val view = `object` as View
+        vp.removeView(view)
     }
-
 
     fun setOnImageClickListener(listener: () -> Unit) {
         this.onImageClickListener = listener
-    }
-
-    fun setItemList(newList: List<String>) {
-        val itemDiffUtil = HostelWorldDiffUtil(imageList, newList)
-        val diffUtilResult = DiffUtil.calculateDiff(itemDiffUtil)
-        imageList = newList
-        diffUtilResult.dispatchUpdatesTo(this)
     }
 }

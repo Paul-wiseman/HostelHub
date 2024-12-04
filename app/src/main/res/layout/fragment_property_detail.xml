@@ -11,7 +11,7 @@
         android:paddingHorizontal="@dimen/_15dp"
         android:paddingBottom="@dimen/_20dp">
 
-        <androidx.viewpager2.widget.ViewPager2
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_300dp"
@@ -41,8 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_10dp"
-                android:text="Luxury Penthouse"
+                android:layout_marginStart="@dimen/_5dp"
+                tools:text="Luxury Penthouse"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -69,7 +69,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <me.relex.circleindicator.CircleIndicator3
+        <me.relex.circleindicator.CircleIndicator
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="48dp"

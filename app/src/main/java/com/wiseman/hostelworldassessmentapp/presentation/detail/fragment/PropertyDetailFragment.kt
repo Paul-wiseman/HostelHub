@@ -27,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class PropertyDetailFragment : Fragment(R.layout.fragment_property_detail) {
     private val propertyListViewModel by activityViewModels<PropertyListViewModel>()
     private val binding by viewBinding(FragmentPropertyDetailBinding::bind)
-    private val viewPagerAdapter: ImageSlideAdapter by lazy { ImageSlideAdapter() }
     private val args: PropertyDetailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +43,12 @@ class PropertyDetailFragment : Fragment(R.layout.fragment_property_detail) {
                         property.imagesGallery
                             .map { it.imageUrl }
                             .let { list ->
-                                viewPagerAdapter.setItemList(list)
+                                val viewPagerAdapter: ImageSlideAdapter by lazy {
+                                    ImageSlideAdapter(
+                                        requireContext(),
+                                        list
+                                    )
+                                }
                                 viewpager.adapter = viewPagerAdapter
                                 indicator.setViewPager(viewpager)
                             }
