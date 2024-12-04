@@ -30,6 +30,8 @@ Hostel Details: Provides in-depth information about each hostel, including ameni
 - Kotlin Serialization
 
 ## Project Structure
+
+- The project is built with MVVM + clean architecture pattern
 HostelFinder
 ```sh
 ├── app
