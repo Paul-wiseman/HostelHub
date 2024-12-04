@@ -111,6 +111,6 @@ class PropertyListViewModel @Inject constructor(
 
     private companion object {
         const val CURRENCY_EXCHANGE_DELAY =
-            10000L // Time to refresh the exchange rate. this can be change based on requirement
+            5000L // Time to refresh the exchange rate. this can be change based on requirement
     }
 }

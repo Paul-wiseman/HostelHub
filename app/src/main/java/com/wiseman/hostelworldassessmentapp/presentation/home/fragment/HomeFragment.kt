@@ -3,7 +3,6 @@ package com.wiseman.hostelworldassessmentapp.presentation.home.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +12,6 @@ import com.wiseman.hostelworldassessmentapp.domain.model.Property
 import com.wiseman.hostelworldassessmentapp.presentation.home.adapter.PropertyListAdapter
 import com.wiseman.hostelworldassessmentapp.presentation.home.state.UiState
 import com.wiseman.hostelworldassessmentapp.presentation.home.viewmodel.PropertyListViewModel
-import com.wiseman.hostelworldassessmentapp.util.ui.CustomProgressDialogFragment
 import com.wiseman.hostelworldassessmentapp.util.collectInFragment
 import com.wiseman.hostelworldassessmentapp.util.showErrorDialog
 import com.wiseman.hostelworldassessmentapp.util.ui.viewBinding
@@ -25,11 +23,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val propertyListViewModel by activityViewModels<PropertyListViewModel>()
     private val binding by viewBinding(FragmentHomeBinding::bind)
 
-    private val customProgressFrag = CustomProgressDialogFragment.newInstance()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setUpRecyclerView()
         getAllAvailableProperties()
         setupItemClickListener()
@@ -60,7 +55,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             when (homeScreenViewState.state) {
                 UiState.Error -> {
-                    showCustomProgressSheet(requireActivity(), false)
+                    binding.loadingAnimation.visibility = View.GONE
                     val errorMassage = homeScreenViewState.error
                         ?: getString(R.string.error_fetching_available_properties)
                     showErrorDialog(
@@ -70,34 +65,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
 
                 UiState.Loading -> {
-                    showCustomProgressSheet(requireActivity(), true)
+                    binding.loadingAnimation.visibility = View.VISIBLE
                 }
 
                 UiState.Success -> {
-                    showCustomProgressSheet(requireActivity(), false)
+                    binding.loadingAnimation.visibility = View.GONE
                     homeScreenViewState.properties?.let { adapter.setItemList(it) }
                 }
             }
         }
-    }
-
-    private fun showCustomProgressSheet(
-        activity: FragmentActivity,
-        show: Boolean
-    ) {
-        if (!activity.isFinishing) {
-            if (show) {
-                customProgressFrag.show(
-                    activity.supportFragmentManager,
-                    TAG
-                )
-            } else {
-                customProgressFrag.dismiss()
-            }
-        }
-    }
-
-    private companion object {
-        const val TAG = "HomeFragment"
     }
 }

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.wiseman.hostelworldassessmentapp.R
 import com.wiseman.hostelworldassessmentapp.databinding.PropertyItemLayoutBinding
 import com.wiseman.hostelworldassessmentapp.domain.model.Property
 import com.wiseman.hostelworldassessmentapp.presentation.adapter.ImageSlideAdapter
@@ -55,31 +56,45 @@ class PropertyListAdapter :
         private val propertyRating = binding.propertyRating
         private val imageViewPager = binding.viewpager
         private val imageViewPagerIndicator = binding.indicator
+        private val distanceTv = binding.distanceTv
 
         fun bind(property: Property) {
-            featuredBadge.visibility =
-                if (property.isFeatured == true) View.VISIBLE else View.INVISIBLE
-            propertyTitle.text = property.name
-            property.lowestPricePerNight?.let { price ->
-                propertyPrice.text = formatPrice(price)
-            }
-            propertyRating.text = formatRating(property.overallRating)
-
-            property.imagesGallery
-                .map { it.imageUrl }
-                .let { list ->
-                    viewPagerAdapter = ImageSlideAdapter(binding.root.context, list)
-                    viewPagerAdapter.setOnImageClickListener {
-                        onItemClickListener?.let { it(property) }
-                    }
-                    imageViewPager.adapter = viewPagerAdapter
-                    imageViewPagerIndicator.setViewPager(imageViewPager)
+            with(property) {
+                featuredBadge.visibility =
+                    if (isFeatured == true) View.VISIBLE else View.INVISIBLE
+                propertyTitle.text = name
+                lowestPricePerNight?.let { price ->
+                    propertyPrice.text = formatPrice(price)
                 }
+                propertyRating.text = formatRating(overallRating)
+                distanceTv.text = String.format(
+                    binding.root.context.getString(R.string.location),
+                    type,
+                    distance.value.toString(),
+                    distance.units
+                )
+
+                imagesGallery
+                    .map { it.imageUrl }
+                    .let { list ->
+                        viewPagerAdapter = ImageSlideAdapter(binding.root.context, list)
+                        viewPagerAdapter.setOnImageClickListener {
+                            onItemClickListener?.let { it(property) }
+                        }
+                        imageViewPager.adapter = viewPagerAdapter
+                        imageViewPagerIndicator.setViewPager(imageViewPager)
+                    }
+            }
+
         }
 
     }
 
     fun setOnItemClickListener(listener: (item: Property) -> Unit) {
         this.onItemClickListener = listener
+    }
+
+    private companion object{
+
     }
 }

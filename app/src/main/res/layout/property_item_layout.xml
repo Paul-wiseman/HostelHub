@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/property_card_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="400dp"
     android:layout_margin="@dimen/_10dp"
+    android:layout_marginEnd="9dp"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/_30dp"
-    app:cardElevation="0dp">
-
+    app:cardElevation="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -74,8 +79,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10dp"
             android:orientation="vertical"
             android:padding="@dimen/_16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_pager_layout">
@@ -112,6 +119,14 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/distance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12sp"
+                android:layout_marginTop="@dimen/_10dp"
+                tools:text="Hostel - 6.05km from city centre" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,6 +148,8 @@
                     android:textSize="@dimen/_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
+
 
         </LinearLayout>
 

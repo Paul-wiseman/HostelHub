@@ -39,6 +39,11 @@ data class LowestPricePerNight(
     val value: String?
 )
 
+data class Distance(
+    val units: String?,
+    val value: Double?
+)
+
 data class Property(
     val address1: String?,
     val address2: String?,
@@ -55,6 +60,7 @@ data class Property(
     val overview: String?,
     val position: Int?,
     val type: String?,
+    val distance: Distance,
     val veryPopular: Boolean?,
     val lowestPricePerNight: LowestPricePerNight?,
 )

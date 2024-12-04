@@ -5,6 +5,7 @@ import com.wiseman.hostelworldassessmentapp.data.model.LocationDto
 import com.wiseman.hostelworldassessmentapp.data.model.PropertyDto
 import com.wiseman.hostelworldassessmentapp.domain.model.Amenity
 import com.wiseman.hostelworldassessmentapp.domain.model.AvailableProperties
+import com.wiseman.hostelworldassessmentapp.domain.model.Distance
 import com.wiseman.hostelworldassessmentapp.domain.model.Facility
 import com.wiseman.hostelworldassessmentapp.domain.model.FreeCancellation
 import com.wiseman.hostelworldassessmentapp.domain.model.ImagesGallery
@@ -65,6 +66,7 @@ fun PropertyDto.toProperty(): Property =
         position = position,
         type = type,
         veryPopular = veryPopular,
+        distance = Distance(distance?.units, distance?.value),
         lowestPricePerNight = lowestPricePerNight?.currency?.let { currency ->
             LowestPricePerNight(
                 currency = currency,

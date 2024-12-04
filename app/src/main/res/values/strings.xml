@@ -106,6 +106,7 @@
     <string name="facilities">Facilities</string>
     <string name="something_went_wrong">something went wrong</string>
     <string name="error_fetching_available_properties">Error fetching available properties</string>
+    <string name="location">"%s - %s%s from city centre"</string>
 
     <string-array name="supported_currency">
         <item>EUR</item>

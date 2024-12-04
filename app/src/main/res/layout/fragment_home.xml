@@ -5,17 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
+    android:paddingHorizontal="@dimen/_10dp"
+    android:paddingBottom="70dp"
     tools:context=".presentation.home.fragment.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/available_properties_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="15dp"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="2"
+        tools:itemCount="3"
+        android:layout_marginTop="@dimen/_10dp"
         tools:listitem="@layout/property_item_layout" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_animation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.52"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/progress_loader" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
