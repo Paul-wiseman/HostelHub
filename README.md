@@ -1,7 +1,5 @@
 # HostelHub
 
-## A Modern Android App for Hostel Discovery
-
 ### Overview
 HostelFinder is a feature-rich Android application designed to help users discover and book hostels in various cities. It leverages modern Android development techniques and libraries to provide a seamless and user-friendly experience.
 
@@ -32,6 +30,8 @@ Hostel Details: Provides in-depth information about each hostel, including ameni
 - Kotlin Serialization
 
 ## Project Structure
+
+- The project is built with MVVM + clean architecture pattern
 HostelFinder
 ```sh
 ├── app
