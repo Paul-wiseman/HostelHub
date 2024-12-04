@@ -90,5 +90,8 @@ dependencies {
     implementation(libs.coil.network)
     implementation(libs.viewpager.indicator)
     implementation(kotlin("reflect"))
+
     testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.coroutine.test)
 }

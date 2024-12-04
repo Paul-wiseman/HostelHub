@@ -1,4 +1,4 @@
-package com.wiseman.hostelworldassessmentapp.util
+package com.wiseman.hostelworldassessmentapp.util.exception
 
 sealed class HostelWorldException(message: String) : Exception(message) {
     class NetworkError(message: String) : HostelWorldException(message)

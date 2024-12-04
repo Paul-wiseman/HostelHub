@@ -26,7 +26,8 @@ junitJupiter = "5.8.1"
 mockKVersion = "1.13.13"
 kotlinJsonVersion = "1.7.3"
 kotlinSerializationVersion = "2.0.21"
-
+turbinVersion = "1.2.0"
+coroutinesTestVersion = "1.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,7 +57,8 @@ viewpager-indicator = { module = "me.relex:circleindicator", version.ref = "view
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockKVersion" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinJsonVersion" }
-
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbinVersion" }
+coroutine-test = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesTestVersion"}
 
 
 [plugins]

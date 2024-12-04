@@ -1,6 +1,8 @@
 package com.wiseman.hostelworldassessmentapp.di
 
 import com.wiseman.hostelworldassessmentapp.BuildConfig
+import com.wiseman.hostelworldassessmentapp.util.rx.SchedulerProvider
+import com.wiseman.hostelworldassessmentapp.util.rx.SchedulerProviderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,5 +37,9 @@ object AppModule {
         .addConverterFactory(MoshiConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
+
+    @Singleton
+    @Provides
+    fun providesScheduler(): SchedulerProvider = SchedulerProviderImpl()
 
 }

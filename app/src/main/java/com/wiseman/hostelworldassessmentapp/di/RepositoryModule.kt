@@ -5,6 +5,7 @@ import com.wiseman.hostelworldassessmentapp.data.repository.AvailablePropertiesR
 import com.wiseman.hostelworldassessmentapp.data.source.remote.HostelApiService
 import com.wiseman.hostelworldassessmentapp.domain.repository.AvailablePropertiesRepository
 import com.wiseman.hostelworldassessmentapp.util.NetworkUtil
+import com.wiseman.hostelworldassessmentapp.util.rx.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,10 +30,12 @@ object RepositoryModule {
     fun provideAvailablePropertiesRepository(
         hostelApiService: HostelApiService,
         @ApplicationContext context: Context,
-        networkUtil: NetworkUtil
+        networkUtil: NetworkUtil,
+        schedulerProvider: SchedulerProvider
     ): AvailablePropertiesRepository = AvailablePropertiesRepositoryImpl(
         hostelApiService = hostelApiService,
         context = context,
+        schedulerProvider = schedulerProvider,
         networkUtil = networkUtil
     )
 }

@@ -1,4 +1,4 @@
-package com.wiseman.hostelworldassessmentapp.util
+package com.wiseman.hostelworldassessmentapp.util.ui
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,8 +10,6 @@ import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.wiseman.hostelworldassessmentapp.R
 import com.wiseman.hostelworldassessmentapp.databinding.CustomDialogProgressbarBinding
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class CustomProgressDialogFragment :
     DialogFragment(R.layout.custom_dialog_progressbar) {

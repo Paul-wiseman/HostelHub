@@ -13,10 +13,10 @@ import com.wiseman.hostelworldassessmentapp.domain.model.Property
 import com.wiseman.hostelworldassessmentapp.presentation.home.adapter.PropertyListAdapter
 import com.wiseman.hostelworldassessmentapp.presentation.home.state.UiState
 import com.wiseman.hostelworldassessmentapp.presentation.home.viewmodel.PropertyListViewModel
-import com.wiseman.hostelworldassessmentapp.util.CustomProgressDialogFragment
+import com.wiseman.hostelworldassessmentapp.util.ui.CustomProgressDialogFragment
 import com.wiseman.hostelworldassessmentapp.util.collectInFragment
 import com.wiseman.hostelworldassessmentapp.util.showErrorDialog
-import com.wiseman.hostelworldassessmentapp.util.viewBinding
+import com.wiseman.hostelworldassessmentapp.util.ui.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

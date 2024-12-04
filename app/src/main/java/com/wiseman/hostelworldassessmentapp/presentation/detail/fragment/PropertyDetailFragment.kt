@@ -20,7 +20,7 @@ import com.wiseman.hostelworldassessmentapp.util.collectInFragment
 import com.wiseman.hostelworldassessmentapp.util.formatPrice
 import com.wiseman.hostelworldassessmentapp.util.formatRating
 import com.wiseman.hostelworldassessmentapp.util.getCurrencySymbolFromCode
-import com.wiseman.hostelworldassessmentapp.util.viewBinding
+import com.wiseman.hostelworldassessmentapp.util.ui.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

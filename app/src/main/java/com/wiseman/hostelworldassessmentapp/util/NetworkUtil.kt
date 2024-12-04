@@ -6,7 +6,6 @@ import android.net.NetworkCapabilities
 import javax.inject.Inject
 
 class NetworkUtil @Inject constructor() {
-
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

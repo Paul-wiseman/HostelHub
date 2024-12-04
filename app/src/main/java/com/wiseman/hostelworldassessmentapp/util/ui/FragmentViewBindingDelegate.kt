@@ -1,4 +1,4 @@
-package com.wiseman.hostelworldassessmentapp.util
+package com.wiseman.hostelworldassessmentapp.util.ui
 
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
@@ -71,10 +71,3 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
 
 fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
     FragmentViewBindingDelegate(this, viewBindingFactory)
-
-inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
-    crossinline bindingInflater: (LayoutInflater) -> T
-) =
-    lazy(LazyThreadSafetyMode.NONE) {
-        bindingInflater.invoke(layoutInflater)
-    }

@@ -7,8 +7,8 @@ import com.wiseman.hostelworldassessmentapp.domain.model.CurrencyExchangeRates
 import com.wiseman.hostelworldassessmentapp.domain.repository.AvailablePropertiesRepository
 import com.wiseman.hostelworldassessmentapp.presentation.home.state.PropertyUiState
 import com.wiseman.hostelworldassessmentapp.presentation.home.state.UiState
+import com.wiseman.hostelworldassessmentapp.util.rx.SchedulerProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.delay
@@ -22,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PropertyListViewModel @Inject constructor(
     private val repository: AvailablePropertiesRepository,
+    private val schedulerProvider: SchedulerProvider
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
     private val _state = MutableStateFlow(PropertyUiState())
@@ -32,44 +33,46 @@ class PropertyListViewModel @Inject constructor(
         getCurrentExchangeRate()
     }
 
-    private fun getAllAvailableProperties() {
-        withDisposable {
-            repository.fetchAvailableProperties()
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    _state.update { homeScreenViewState ->
-                        homeScreenViewState.copy(state = UiState.Loading, error = null)
-                    }
-                }
-                .subscribe(
-                    { data: AvailableProperties ->
+     private fun getAllAvailableProperties() {
+        viewModelScope.launch {
+            withDisposable {
+                repository.fetchAvailableProperties()
+                    .observeOn(schedulerProvider.ui())
+                    .doOnSubscribe {
                         _state.update { homeScreenViewState ->
-                            homeScreenViewState.copy(
-                                state = UiState.Success,
-                                error = null,
-                                location = data.location,
-                                properties = data.properties
-                            )
-                        }
-                    },
-                    { error ->
-                        _state.update { homeScreenViewState ->
-                            homeScreenViewState.copy(
-                                state = UiState.Error,
-                                error = error.message
-                            )
+                            homeScreenViewState.copy(state = UiState.Loading, error = null)
                         }
                     }
-                )
+                    .subscribe(
+                        { data: AvailableProperties ->
+                            _state.update { homeScreenViewState ->
+                                homeScreenViewState.copy(
+                                    state = UiState.Success,
+                                    error = null,
+                                    location = data.location,
+                                    properties = data.properties
+                                )
+                            }
+                        },
+                        { error ->
+                            _state.update { homeScreenViewState ->
+                                homeScreenViewState.copy(
+                                    state = UiState.Error,
+                                    error = error.message
+                                )
+                            }
+                        }
+                    )
+            }
         }
     }
 
-    private fun getCurrentExchangeRate() {
+     private fun getCurrentExchangeRate() {
         viewModelScope.launch {
             while (isActive) {
                 withDisposable {
                     repository.fetchCurrencyExchangeRate()
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .observeOn(schedulerProvider.ui())
                         .subscribe(
                             { data: CurrencyExchangeRates ->
                                 _state.update { state ->
