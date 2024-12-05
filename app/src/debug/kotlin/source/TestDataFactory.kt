@@ -3,6 +3,7 @@ package source
 import com.wiseman.hostelworldassessmentapp.data.model.AvailablePropertiesDto
 import com.wiseman.hostelworldassessmentapp.data.model.CityDto
 import com.wiseman.hostelworldassessmentapp.data.model.CurrencyExchangeRatesDto
+import com.wiseman.hostelworldassessmentapp.data.model.DistanceDto
 import com.wiseman.hostelworldassessmentapp.data.model.ExchangeRatesDto
 import com.wiseman.hostelworldassessmentapp.data.model.FacilityDto
 import com.wiseman.hostelworldassessmentapp.data.model.FacilityX
@@ -81,7 +82,7 @@ object TestDataFactory {
                     overview = "We're a stone's throw from Temple Bar, O'Connell Bridge, Trinity College...",
                     isElevate = false,
                     hostelworldRecommends = false,
-                    distance = null,
+                    distance = DistanceDto(units = "Km", value = 1.53),
                     position = 2,
                     hwExtra = null,
                     fabSort = null,

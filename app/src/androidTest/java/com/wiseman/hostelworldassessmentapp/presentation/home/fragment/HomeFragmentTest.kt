@@ -1,7 +1,7 @@
 package com.wiseman.hostelworldassessmentapp.presentation.home.fragment
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.filters.MediumTest
@@ -14,6 +14,7 @@ import launchFragmentInHiltContainer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import source.TestDataFactory
 
 @MediumTest
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -31,19 +32,17 @@ class HomeFragmentTest {
 
     @Test
     fun testHomeFragment() {
-
-        launchFragmentInHiltContainer<HomeFragment> {
-
-        }
-
+        launchFragmentInHiltContainer<HomeFragment>()
         onView(ViewMatchers.withId(R.id.available_properties_rv))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<PropertyListAdapter.PropertyViewHolder>(
-                    1,
-                    click()
+            .perform(RecyclerViewActions.scrollToPosition<PropertyListAdapter.PropertyViewHolder>(0))
+            .check(
+                ViewAssertions.matches(
+                    ViewMatchers.hasDescendant(
+                        ViewMatchers.withText(
+                            TestDataFactory.getAvailablePropertiesDto().properties?.get(0)?.name
+                        )
+                    )
                 )
             )
-
     }
-
 }
