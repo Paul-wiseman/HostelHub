@@ -5,11 +5,9 @@ import com.wiseman.hostelworldassessmentapp.data.mapper.toAvailableProperties
 import com.wiseman.hostelworldassessmentapp.data.mapper.toCurrencyExchangeRates
 import com.wiseman.hostelworldassessmentapp.domain.repository.AvailablePropertiesRepository
 import com.wiseman.hostelworldassessmentapp.presentation.home.state.UiState
-import com.wiseman.hostelworldassessmentapp.util.TestDataFactory
 import com.wiseman.hostelworldassessmentapp.util.exception.ErrorMessages.NETWORK_ERROR
 import com.wiseman.hostelworldassessmentapp.util.exception.HostelWorldException
 import com.wiseman.hostelworldassessmentapp.util.rx.SchedulerProvider
-import com.wiseman.hostelworldassessmentapp.util.testScheduler
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
@@ -26,6 +24,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import source.TestDataFactory
+import testScheduler
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PropertyListViewModelTest {

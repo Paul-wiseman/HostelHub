@@ -1,7 +1,5 @@
-package com.wiseman.hostelworldassessmentapp.util
+package source
 
-import com.wiseman.hostelworldassessmentapp.data.mapper.toAvailableProperties
-import com.wiseman.hostelworldassessmentapp.data.mapper.toCurrencyExchangeRates
 import com.wiseman.hostelworldassessmentapp.data.model.AvailablePropertiesDto
 import com.wiseman.hostelworldassessmentapp.data.model.CityDto
 import com.wiseman.hostelworldassessmentapp.data.model.CurrencyExchangeRatesDto
@@ -24,7 +22,6 @@ import com.wiseman.hostelworldassessmentapp.data.model.Pagination
 import com.wiseman.hostelworldassessmentapp.data.model.Promotions
 import com.wiseman.hostelworldassessmentapp.data.model.PropertyDto
 import com.wiseman.hostelworldassessmentapp.data.model.RatingBreakdownDto
-import com.wiseman.hostelworldassessmentapp.presentation.home.state.PropertyUiState
 
 object TestDataFactory {
 

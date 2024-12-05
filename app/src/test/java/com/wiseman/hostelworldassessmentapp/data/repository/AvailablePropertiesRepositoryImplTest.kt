@@ -4,11 +4,9 @@ import android.content.Context
 import com.wiseman.hostelworldassessmentapp.data.mapper.toAvailableProperties
 import com.wiseman.hostelworldassessmentapp.data.mapper.toCurrencyExchangeRates
 import com.wiseman.hostelworldassessmentapp.data.source.remote.HostelApiService
-import com.wiseman.hostelworldassessmentapp.util.exception.HostelWorldException
 import com.wiseman.hostelworldassessmentapp.util.NetworkUtil
+import com.wiseman.hostelworldassessmentapp.util.exception.HostelWorldException
 import com.wiseman.hostelworldassessmentapp.util.rx.SchedulerProvider
-import com.wiseman.hostelworldassessmentapp.util.TestDataFactory
-import com.wiseman.hostelworldassessmentapp.util.testScheduler
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
@@ -16,6 +14,8 @@ import io.reactivex.rxjava3.core.Single
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import source.TestDataFactory
+import testScheduler
 
 
 class AvailablePropertiesRepositoryImplTest {
@@ -26,10 +26,14 @@ class AvailablePropertiesRepositoryImplTest {
     private lateinit var repository: AvailablePropertiesRepositoryImpl
 
 
-
     @BeforeEach
     fun setUp() {
-        repository = AvailablePropertiesRepositoryImpl(mockHostelApiService, mockContext, mockSchedulers, mockNetworkUtil)
+        repository = AvailablePropertiesRepositoryImpl(
+            mockHostelApiService,
+            mockContext,
+            mockSchedulers,
+            mockNetworkUtil
+        )
     }
 
     @AfterEach

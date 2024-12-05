@@ -94,7 +94,7 @@ class PropertyListAdapter :
         this.onItemClickListener = listener
     }
 
-    private companion object{
+    private companion object {
 
     }
 }

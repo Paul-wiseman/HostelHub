@@ -18,16 +18,24 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.wiseman.hostelworldassessmentapp.CustomTestRunner"
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://gist.githubusercontent.com/PedroTrabulo-Hostelworld/\"")
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://gist.githubusercontent.com/PedroTrabulo-Hostelworld/\""
+            )
         }
 
         release {
-            buildConfigField("String", "BASE_URL", "\"https://gist.githubusercontent.com/PedroTrabulo-Hostelworld/\"")
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://gist.githubusercontent.com/PedroTrabulo-Hostelworld/\""
+            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -46,9 +54,32 @@ android {
 
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            resources {
+                excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                merges += "META-INF/LICENSE.md"
+                merges += "META-INF/LICENSE-notice.md"
+            }
         }
     }
+
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        managedDevices {
+            devices {
+                create<com.android.build.api.dsl.ManagedVirtualDevice>("nexusOneApi30") {
+                    device = "Nexus One"
+                    apiLevel = 30
+                    systemImageSource = "aosp-atd"
+                }
+            }
+        }
+    }
+
+    namespace = "com.wiseman.hostelworldassessmentapp"
+    testNamespace = "com.wiseman.hostelworldassessmentapp.test"
+
+
 
     buildFeatures {
         buildConfig = true
@@ -68,12 +99,15 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.rules)
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
+    androidTestImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     implementation(libs.hilt.android)
+    implementation(libs.hilt.android.test)
+    kspAndroidTest(libs.hilt.android.compiler)
     ksp(libs.hilt.android.compiler)
     implementation(libs.retrofit)
     implementation(libs.retrofit.moshi.converter)
@@ -94,4 +128,19 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
     testImplementation(libs.coroutine.test)
+    androidTestImplementation(libs.mockk)
+
+    androidTestImplementation(libs.fragment.test)
+
+    androidTestImplementation("androidx.test:core:1.4.0") {
+        exclude(module = "androidx.test.ext:junit")
+    }
+
+    androidTestImplementation(libs.androidx.test)
+    androidTestImplementation(libs.androidx.junit.v113)
+    androidTestImplementation(libs.androidx.junit.ktx)
+    androidTestImplementation(libs.androidx.truth)
+    debugImplementation(libs.androidx.monitor)
+    androidTestImplementation(libs.androidx.espresso.contrib)
+    androidTestImplementation(libs.androidx.espresso.accessibility)
 }
