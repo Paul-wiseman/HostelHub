@@ -14,6 +14,16 @@ import com.wiseman.hostelworldassessmentapp.domain.model.LowestPricePerNight
 import com.wiseman.hostelworldassessmentapp.domain.model.OverallRating
 import com.wiseman.hostelworldassessmentapp.domain.model.Property
 
+/**
+ * Converts an [AvailablePropertiesDto] object to an [AvailableProperties] object.
+ *
+ * This function maps the properties of the DTO to the corresponding properties of the
+ * domain model, including handling optional properties and nested objects.
+ *
+ * @receiver The [AvailablePropertiesDto] object to convert.
+ * @return An [AvailableProperties] object representing the converted data.
+ */
+
 fun AvailablePropertiesDto.toAvailableProperties(): AvailableProperties =
     AvailableProperties(
         location = location?.toLocation(),

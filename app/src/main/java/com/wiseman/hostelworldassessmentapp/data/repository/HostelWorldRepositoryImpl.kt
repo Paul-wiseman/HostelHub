@@ -15,6 +15,19 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
+/**
+ * Implementation of the [AvailablePropertiesRepository] interface.
+ *
+ * This class is responsible for fetching available properties and currency exchange rates
+ * from the network using the [HostelApiService]. It handles network connectivity and
+ * error handling.
+ *
+ * @property hostelApiService The API service used to make network requests.
+ * @property context The application context.
+ * @property schedulerProvider Provides schedulers for asynchronous operations.
+ * @property networkUtil Utility class for checking network connectivity.
+ */
+
 class AvailablePropertiesRepositoryImpl @Inject constructor(
     private val hostelApiService: HostelApiService,
     @ApplicationContext private val context: Context,

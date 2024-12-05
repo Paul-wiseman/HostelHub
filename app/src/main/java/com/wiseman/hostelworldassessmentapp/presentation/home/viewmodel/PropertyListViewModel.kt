@@ -19,6 +19,18 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the property list screen.
+ *
+ * This ViewModel is responsible for fetching and managing the data for the property
+ * list screen, including available properties and the current exchange rate. It uses
+ * the [AvailablePropertiesRepository] to fetch data and the [SchedulerProvider] to
+ * manage asynchronous operations.
+ *
+ * @property repository The repository for accessing property data.
+ * @property schedulerProvider Provides schedulers for asynchronous operations.
+ */
+
 @HiltViewModel
 class PropertyListViewModel @Inject constructor(
     private val repository: AvailablePropertiesRepository,

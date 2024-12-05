@@ -5,6 +5,16 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import javax.inject.Inject
 
+/**
+ * Checks if the device is currently connected to the internet.
+ *
+ * This method checks for the presence of an active network connection with
+ * capabilities for Wi-Fi, cellular data, or Ethernet.
+ *
+ * @param context The application context.
+ * @return `true` if the device is connected to the internet, `false` otherwise.
+ */
+
 class NetworkUtil @Inject constructor() {
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager =
